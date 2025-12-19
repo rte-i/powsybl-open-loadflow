@@ -19,6 +19,12 @@ within the energy and electricity sectors.
 
 Read more at https://www.powsybl.org !
 
+## Documentation
+
+* [Branch fault virtual nodes](docs/branch-faults.md) – how to request synthetic
+  buses/branches from open-loadflow so that short-circuit solvers can inject
+  branch faults at arbitrary locations.
+
 This project and everyone participating in it is under the [Linux Foundation Energy governance principles](https://www.powsybl.org/pages/project/governance.html) and must respect the [PowSyBl Code of Conduct](https://github.com/powsybl/.github/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior to [powsybl-tsc@lists.lfenergy.org](mailto:powsybl-tsc@lists.lfenergy.org).
 
