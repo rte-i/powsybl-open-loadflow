@@ -88,10 +88,18 @@ public final class AdmittanceEquationSystem {
     }
 
     public static AdmittanceEquationSystem create(LfNetwork network, VariableSet<AdmittanceVariableType> variableSet) {
-        EquationSystem<AdmittanceVariableType, AdmittanceEquationType> equationSystem = new EquationSystem<>(AdmittanceEquationType.class, network);
+        return create(network, variableSet, null);
+    }
 
-        createBranchEquations(network.getBranches(), variableSet, equationSystem);
-        createShuntEquations(network.getBuses(), variableSet, equationSystem);
+    public static AdmittanceEquationSystem create(LfNetwork network, VariableSet<AdmittanceVariableType> variableSet,
+                                                  AdmittanceVirtualNetwork virtualNetwork) {
+        Objects.requireNonNull(network);
+        Objects.requireNonNull(variableSet);
+        AdmittanceVirtualNetwork topology = virtualNetwork != null ? virtualNetwork : AdmittanceVirtualNetwork.empty(network);
+        EquationSystem<AdmittanceVariableType, AdmittanceEquationType> equationSystem = new EquationSystem<>(AdmittanceEquationType.class, topology, variableSet);
+
+        createBranchEquations(topology.getBranches(), variableSet, equationSystem);
+        createShuntEquations(topology.getBuses(), variableSet, equationSystem);
 
         return new AdmittanceEquationSystem(equationSystem);
     }
