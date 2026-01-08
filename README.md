@@ -145,6 +145,47 @@ print on standard output buses voltage magnitude and angle:
 ```java
 network.getBusView().getBusStream().forEach(b -> System.out.println(b.getId() + " " + b.getV() + " " + b.getAngle()));
 ```
+
+## Branch fault web demo
+
+The `demo/branch-fault-demo` module hosts a minimal Spring Boot UI that runs open-loadflow
+and open-short-circuit on the IEEE-14 case. It relies on the `branch-fault-support`
+branch of this repository and on `powsybl-open-sc` branch
+`COUR-6-US-T1-E1-US1-Explicit-IEC-60909-calculation-mode`.
+
+1. Install `powsybl-open-sc` locally (`./mvnw install -DskipTests` from that repo).
+2. Install this fork (`./mvnw install -DskipTests` from the root).
+3. Launch the UI from this repo: `./mvnw -f demo/branch-fault-demo/pom.xml spring-boot:run`.
+
+The page served at `http://localhost:8080` lets you pick a branch, alpha position, and
+fault type (balanced or single-phase). It then runs the IEEE‑14 loadflow, injects the
+branch fault (plus optional reference bus faults), and displays the currents/voltages
+reported by `OpenShortCircuitProvider`.
+
+### Run everything in Docker
+
+A multi-stage `Dockerfile` is available at the repository root. It clones
+`powsybl-open-sc` (branch `COUR-6-US-T1-E1-US1-Explicit-IEC-60909-calculation-mode`),
+installs it into the container Maven cache, builds the branch-fault demo jar, and serves
+it on port 8080.
+
+```
+docker compose up --build
+```
+
+Or, if you prefer plain Docker:
+
+```
+docker build -t branch-fault-demo \
+  --build-arg OPEN_SC_REPO=https://github.com/rte-i/powsybl-open-sc.git \
+  --build-arg OPEN_SC_REF=COUR-6-US-T1-E1-US1-Explicit-IEC-60909-calculation-mode \
+  .
+docker run --rm -p 8080:8080 branch-fault-demo
+```
+
+Override the build arguments if you host the short-circuit fork elsewhere. Once the
+container is up, open `http://localhost:8080` and you can immediately explore IEEE‑14
+balanced or unbalanced branch faults via the UI.
 ## Contributing to PowSyBl Open Load Flow
 
 PowSyBl Open Load Flow could support more features. The following list is not exhaustive and is an invitation to collaborate:

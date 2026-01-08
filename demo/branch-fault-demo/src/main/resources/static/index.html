@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Fault Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <h1>PowSyBl Branch Fault Demo</h1>
+        <p>IEEE 14-bus with balanced &amp; unbalanced branch fault simulations</p>
+    </div>
+</header>
+<main>
+    <section class="card">
+        <h2>Study setup</h2>
+        <form id="study-form">
+            <div class="form-field">
+                <label for="branch-select">Branch</label>
+                <select id="branch-select" required></select>
+            </div>
+            <div class="form-field">
+                <label for="alpha-input">Fault position (α)</label>
+                <input type="range" min="0" max="1" step="0.01" id="alpha-input" value="0.5">
+                <span id="alpha-value">0.50</span>
+            </div>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="r-input">Fault resistance (Ω)</label>
+                    <input type="number" id="r-input" step="0.001" value="0">
+                </div>
+                <div class="form-field">
+                    <label for="x-input">Fault reactance (Ω)</label>
+                    <input type="number" id="x-input" step="0.001" value="0">
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="fault-type">Fault type</label>
+                    <select id="fault-type">
+                        <option value="THREE_PHASE">Balanced (3Φ)</option>
+                        <option value="SINGLE_PHASE">Unbalanced (1Φ)</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="reference-side">Reference side</label>
+                    <select id="reference-side">
+                        <option value="FROM">From (bus 1)</option>
+                        <option value="TO">To (bus 2)</option>
+                    </select>
+                </div>
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" id="bus-scan" checked>
+                Include reference bus faults (all IEEE-14 buses)
+            </label>
+            <div class="form-actions">
+                <button type="submit">Run study</button>
+                <span id="status-message"></span>
+            </div>
+        </form>
+    </section>
+    <section class="card">
+        <h2>Load flow snapshot</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Bus</th>
+                <th>Voltage (p.u.)</th>
+                <th>Angle (deg)</th>
+            </tr>
+            </thead>
+            <tbody id="loadflow-body"></tbody>
+        </table>
+    </section>
+    <section class="card">
+        <h2>Short-circuit results</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Fault</th>
+                <th>Element</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Current (kA)</th>
+                <th>Voltage (kV)</th>
+                <th>Diagnostic</th>
+            </tr>
+            </thead>
+            <tbody id="shortcircuit-body"></tbody>
+        </table>
+        <div id="diagnostics"></div>
+    </section>
+</main>
+<footer>
+    <p>Uses <code>powsybl-open-loadflow</code> branch-fault virtual nodes and <code>powsybl-open-sc</code> IEC 60909 provider.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

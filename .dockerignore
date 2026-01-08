@@ -1,0 +1,12 @@
+.git
+.gitignore
+.idea
+.vscode
+target
+**/target
+.mvn
+docs/_build
+docs/_static
+docs/_templates
+**/.DS_Store
+**/*.iml

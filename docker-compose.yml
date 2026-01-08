@@ -1,0 +1,12 @@
+services:
+  branch-fault-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        OPEN_SC_REPO: https://github.com/rte-i/powsybl-open-sc.git
+        OPEN_SC_REF: COUR-6-US-T1-E1-US1-Explicit-IEC-60909-calculation-mode
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=
